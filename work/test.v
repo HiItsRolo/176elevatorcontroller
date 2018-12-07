@@ -7,4 +7,3 @@ a <= !a;
 c <= b;
 end
 endmodule 
-oihdoiashdioashdiosiooi4
