@@ -1,0 +1,7 @@
+C:/Users/Groot/Documents/GitHub/176elevatorcontroller/work/test.v {0 {vlog -work work -stats=none C:/Users/Groot/Documents/GitHub/176elevatorcontroller/work/test.v
+Model Technology ModelSim PE Student Edition vlog 10.4a Compiler 2015.03 Apr  7 2015
+-- Compiling module test
+** Error: C:/Users/Groot/Documents/GitHub/176elevatorcontroller/work/test.v(6): (vlog-2110) Illegal reference to net "a".
+
+
+} {4.0 5.0} {}}

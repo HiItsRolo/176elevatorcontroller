@@ -1,0 +1,53 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dC:/Users/Groot/Documents/GitHub/176elevatorcontroller/work
+velevatorController
+!s110 1544147773
+!i10b 1
+!s100 FSCa6SbPeS<9NnNDe@5N:3
+I8UK_]`zojlL<B2Sb6cMW70
+Z1 VDg1SIo80bB@j0V0VzS_@n1
+R0
+w1544147635
+8C:/Users/Groot/Documents/GitHub/176elevatorcontroller/work/elevatorController.v
+FC:/Users/Groot/Documents/GitHub/176elevatorcontroller/work/elevatorController.v
+L0 1
+Z2 OP;L;10.4a;61
+r1
+!s85 0
+31
+!s108 1544147773.000000
+!s107 C:/Users/Groot/Documents/GitHub/176elevatorcontroller/work/elevatorController.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/Groot/Documents/GitHub/176elevatorcontroller/work/elevatorController.v|
+!s101 -O0
+!i113 1
+Z3 o-work work -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact -O0
+nelevator@controller
+vtest
+!s110 1544059649
+!i10b 1
+!s100 4<`KXXde1]0eHUQ]OzgMZ1
+IB27L=LUmcknN]Mb2ah:Fi0
+R1
+R0
+w1544059647
+8C:/Users/Groot/Documents/GitHub/176elevatorcontroller/work/test.v
+FC:/Users/Groot/Documents/GitHub/176elevatorcontroller/work/test.v
+L0 1
+R2
+r1
+!s85 0
+31
+!s108 1544059649.000000
+!s107 C:/Users/Groot/Documents/GitHub/176elevatorcontroller/work/test.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/Groot/Documents/GitHub/176elevatorcontroller/work/test.v|
+!s101 -O0
+!i113 1
+R3
