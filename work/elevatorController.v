@@ -241,17 +241,38 @@ always @(posedge clk)begin
 	   else begin
 		if (nextfloor > floor)begin //if floor 3 or 4 was requested
 		    elevatorstate <= 1; //elevator will go up
+		    floor <= 2;
 		end
-		else //if floor 1 was requested
+		else begin //if floor 1 was requested
 		    elevatorstate <= 2;//elevator will move down
+		    floor <= 0;
+		end
 	   end
 	end
 
-	else begin//elevatorstate != 0, elevator will need to move
-	   if (elevatorstate == 1)
-	       floor <= 2;
-	   else
-	       floor <= 0;
+	else begin//elevatorstate != 0
+	   if (elevatorstate == 1)begin//if elevator was going up
+	       if(floor < nextfloor)begin//if requested floor hasnt been reached yet
+		  if(F3up == 1)begin
+		     nextfloor <= 2;
+		     nextstate <= 1;
+		  end
+		  else if(F3 == 1)
+		     nextfloor <= 2;
+		  else begin
+		     nextfloor <= 3;
+		     nextstate <= 1;
+		  end
+	       end
+	       else  // ==THIS IS WHERE I LEFT OFF==
+
+
+	   end
+	   else begin//elevatorstate == 2
+	       if(floor < nextfloor)begin
+		  if(
+	       end 
+	   end
 	end
 
     2: if(count >= CT) //Floor 3
