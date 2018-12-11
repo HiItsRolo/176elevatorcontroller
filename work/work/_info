@@ -9,39 +9,60 @@ z2
 cModel Technology
 Z0 dC:/Users/Groot/Documents/GitHub/176elevatorcontroller/work
 velevatorController
-!s110 1544487657
+Z1 !s110 1544561550
 !i10b 1
-!s100 ;fU2ohj4NM^ESARHM01YB0
-IYjPe4X8PWeKC;MInlQi=a3
-Z1 VDg1SIo80bB@j0V0VzS_@n1
+!s100 gLz1^1T?R_>L3jJQ684Ii0
+IYa@0BgOi5:a[Ka028W`<R0
+Z2 VDg1SIo80bB@j0V0VzS_@n1
 R0
-w1544487514
+w1544561548
 8C:/Users/Groot/Documents/GitHub/176elevatorcontroller/work/elevatorController.v
 FC:/Users/Groot/Documents/GitHub/176elevatorcontroller/work/elevatorController.v
 L0 1
-Z2 OP;L;10.4a;61
+Z3 OP;L;10.4a;61
 r1
 !s85 0
 31
-!s108 1544487657.000000
+Z4 !s108 1544561550.000000
 !s107 C:/Users/Groot/Documents/GitHub/176elevatorcontroller/work/elevatorController.v|
 !s90 -reportprogress|300|-work|work|-stats=none|C:/Users/Groot/Documents/GitHub/176elevatorcontroller/work/elevatorController.v|
 !s101 -O0
 !i113 1
-Z3 o-work work -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact -O0
+Z5 o-work work -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact -O0
 nelevator@controller
+vlights
+R1
+!i10b 1
+!s100 W1]n04I_:?KdIio[UCfBO0
+I[S2DdkMQMnTiGh[8ado1;2
+R2
+R0
+w1544551164
+8C:/Users/Groot/Documents/GitHub/176elevatorcontroller/work/lights.v
+FC:/Users/Groot/Documents/GitHub/176elevatorcontroller/work/lights.v
+L0 1
+R3
+r1
+!s85 0
+31
+R4
+!s107 C:/Users/Groot/Documents/GitHub/176elevatorcontroller/work/lights.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/Groot/Documents/GitHub/176elevatorcontroller/work/lights.v|
+!s101 -O0
+!i113 1
+R5
 vtest
 !s110 1544059649
 !i10b 1
 !s100 4<`KXXde1]0eHUQ]OzgMZ1
 IB27L=LUmcknN]Mb2ah:Fi0
-R1
+R2
 R0
 w1544059647
 8C:/Users/Groot/Documents/GitHub/176elevatorcontroller/work/test.v
 FC:/Users/Groot/Documents/GitHub/176elevatorcontroller/work/test.v
 L0 1
-R2
+R3
 r1
 !s85 0
 31
@@ -50,25 +71,46 @@ r1
 !s90 -reportprogress|300|-work|work|-stats=none|C:/Users/Groot/Documents/GitHub/176elevatorcontroller/work/test.v|
 !s101 -O0
 !i113 1
-R3
+R5
 vtestbench
-!s110 1544487658
-!i10b 1
-!s100 FzBCi2C@S_^cIg5`kkK`63
-IdgJE0=8R91dPQ=?@1bl;m2
 R1
+!i10b 1
+!s100 2@BgDQLoa<iH?ma3Aaz[32
+IND6iJNNNI]AXE1`1?S4Ed3
+R2
 R0
-w1544487656
+w1544554270
 8C:/Users/Groot/Documents/GitHub/176elevatorcontroller/work/test.vt
 FC:/Users/Groot/Documents/GitHub/176elevatorcontroller/work/test.vt
 L0 1
-R2
+R3
 r1
 !s85 0
 31
-!s108 1544487658.000000
+R4
 !s107 C:/Users/Groot/Documents/GitHub/176elevatorcontroller/work/test.vt|
 !s90 -reportprogress|300|-work|work|-stats=none|C:/Users/Groot/Documents/GitHub/176elevatorcontroller/work/test.vt|
 !s101 -O0
 !i113 1
+R5
+vtoplevel
+R1
+!i10b 1
+!s100 dfjEk8zz_mOg9Nk:e^ng=2
+I;GcBNegikWH<C;Bhj@E]@1
+R2
+R0
+w1544555571
+8C:/Users/Groot/Documents/GitHub/176elevatorcontroller/work/elevator_top.v
+FC:/Users/Groot/Documents/GitHub/176elevatorcontroller/work/elevator_top.v
+L0 1
 R3
+r1
+!s85 0
+31
+R4
+!s107 C:/Users/Groot/Documents/GitHub/176elevatorcontroller/work/elevator_top.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/Groot/Documents/GitHub/176elevatorcontroller/work/elevator_top.v|
+!s101 -O0
+!i113 1
+R5

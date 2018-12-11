@@ -1,3 +1,32 @@
-module testbench
+module testbench;
+
+reg clk, reset, Dsensor, Emergency,
+Dopen, Dclose,
+F1, F2, F3, F4,
+F1up, F2down, F2up,
+F3down, F3up, F4down;
+wire [6:0] floordisp, statedisp;
+wire emergencylight;
+
+initial begin
+clk = 0;
+reset = 0;
+Dsensor = 0;
+Emergency = 0;
+Dopen = 0;
+Dclose = 0;
+F1up = 0;
+F2down = 0;
+F2up = 0;
+F3down = 0;
+F3up = 0;
+F4down = 0;
+#50 F1 = 1;
+#90 F2 = 1;
+#130 F3 = 1;
+#170 F4 = 1;
+end
+always
+#20 clk = !clk;
 
 endmodule 
