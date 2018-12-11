@@ -1,10 +1,21 @@
-C:/Users/Rolo/Documents/GitHub/176elevatorcontroller/work/test.v {0 {vlog -work work -stats=none C:/Users/Rolo/Documents/GitHub/176elevatorcontroller/work/test.v
+C:/Users/Rolo/Documents/GitHub/176elevatorcontroller/work/test.vt {1 {vlog -work work -stats=none C:/Users/Rolo/Documents/GitHub/176elevatorcontroller/work/test.vt
 Model Technology ModelSim PE Student Edition vlog 10.4a Compiler 2015.03 Apr  7 2015
--- Compiling module test
-** Error: C:/Users/Rolo/Documents/GitHub/176elevatorcontroller/work/test.v(6): (vlog-2110) Illegal reference to net "a".
+-- Compiling module testbench
 
+Top level modules:
+	testbench
 
-} {4.0 5.0} {}} C:/Users/Rolo/Documents/GitHub/176elevatorcontroller/work/elevatorController.v {1 {vlog -work work -stats=none C:/Users/Rolo/Documents/GitHub/176elevatorcontroller/work/elevatorController.v
+} {} {}} C:/Users/Rolo/Documents/GitHub/176elevatorcontroller/lights.v {1 {vlog -work work -stats=none C:/Users/Rolo/Documents/GitHub/176elevatorcontroller/lights.v
+Model Technology ModelSim PE Student Edition vlog 10.4a Compiler 2015.03 Apr  7 2015
+-- Compiling module lights
+
+Top level modules:
+	lights
+
+} {} {}} C:/Users/Rolo/Documents/GitHub/176elevatorcontroller/elevator_top.v {1 {vlog -work work -stats=none {C:\Users\Rolo\Documents\GitHub\176elevatorcontroller\elevator_top.v}
+Model Technology ModelSim PE Student Edition vlog 10.4a Compiler 2015.03 Apr  7 2015
+
+} {} {}} C:/Users/Rolo/Documents/GitHub/176elevatorcontroller/work/elevatorController.v {1 {vlog -work work -stats=none C:/Users/Rolo/Documents/GitHub/176elevatorcontroller/work/elevatorController.v
 Model Technology ModelSim PE Student Edition vlog 10.4a Compiler 2015.03 Apr  7 2015
 -- Compiling module elevatorController
 
