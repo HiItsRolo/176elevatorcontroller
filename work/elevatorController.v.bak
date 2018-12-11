@@ -1,19 +1,19 @@
 module elevatorController
 (
-input clk, reset, Dsensor, //signals
+input clk, reset, Dsensor, Emergency, //signals
 Dopen, Dclose, //request door open/close
 F1, F2, F3, F4,//buttons inside of elevator
 F1up, F2down, F2up,//buttons outside of elevator f1 & f2
 F3down, F3up, F4down,//buttons outside of elevator f3 & f4
-output up, down,//outputs whether elevator is going up or down
+output [1:0] state,//outputs whether elevator is going up or down
 output reg [2:0] floor//outputs what floor the elevator is currently on
 );
 reg[1:0] elevatorstate;//current state of elevator: idle, up, down
-reg[1:0] doorstate;//current state of door: open, close
-reg[4:0] count;//current count
+reg doorstate;//current state of door: open, close
+reg[3:0] count;//current count
 reg[1:0] nextstate;//next state of elevator
 reg[1:0] nextfloor;//next floor elevator will go to
-parameter CT = 4'b0010;//parameter for counter
+parameter CT = 4'b0101;//parameter for counter
 parameter OPEN = 1'b1, CLOSED = 1'b0; //parameters for door
 parameter IDLE = 2'b00, UP = 2'b01, DOWN = 2'b10;
 
@@ -30,6 +30,14 @@ always @(posedge clk)begin
  case(floor)
     
    0: //ground floor
+     if(Emergency == 1)begin//if the emergency button is pressed at Floor 0
+	doorstate <= OPEN;//should keep door open
+	nextstate <= 0;
+	count <= 0;
+	nextfloor <= 0;
+	elevatorstate <= IDLE;//and not allow elevator to move
+     end
+     else begin
 	if(elevatorstate == IDLE && nextstate == IDLE)begin//elevator idle and nothing queued
 	   if(doorstate == CLOSED)begin //door close
 		if(F1up == 1)begin //if F1 up button pressed
@@ -124,7 +132,10 @@ always @(posedge clk)begin
 	 	   end
 		end 
 		else begin
-		    count <= count + 1;//up count if count isnt CT
+		    if(Dclose == 1 && count >=3)//if count >3 and Doorclose button pressed
+		       count <= 5;
+		    else
+		       count <= count + 1;//up count if count isnt CT
 		end
 	   end
 	end
@@ -138,7 +149,10 @@ always @(posedge clk)begin
 		      doorstate <= CLOSED;//door should close
 		end
 		else
-		   count <= count + 1;
+		    if(Dclose == 1 && count >=3)//if count >3 and Doorclose button pressed
+		       count <= 5;
+		    else
+		       count <= count + 1;
 	   end
 	   else begin
 		if(F1 == 1)begin
@@ -182,8 +196,16 @@ always @(posedge clk)begin
 		doorstate <= OPEN;
 	   end
 	end
+     end
 	
     1://check for signals when elevator is betweeen F1 and F2
+     if(Emergency == 1)begin
+	if(elevatorstate == 1)//if elevator is moving up
+	   floor <= 2;//go to higher floor
+	else//if elevator is moving down
+	   floor <= 0;//go to lower floor
+     end
+     else begin
 	if(elevatorstate == UP)begin//if elevator is moving up
 	   if(nextfloor == 1)begin//if F2 is desired floor
 	      if(F3 == 1 || F4 == 1)begin
@@ -232,8 +254,18 @@ always @(posedge clk)begin
 	      nextstate <= UP;//queue a move up
 	      floor <= 0;//go down to floor 0
 	end
+     end
+    
 
     2: //floor 2
+     if(Emergency == 1)begin
+	doorstate <= OPEN;//should keep door open
+	nextstate <= 0;
+	count <= 0;
+	nextfloor <= 1;
+	elevatorstate <= IDLE;//and not allow elevator to move
+     end
+     else begin
 	if(elevatorstate == IDLE && nextstate == IDLE)begin//elevator idle and nothing queued
 	   if(doorstate == CLOSED)begin //door close
 		if(F2up == 1)begin //if F2 up button pressed
@@ -328,7 +360,10 @@ always @(posedge clk)begin
 	 	   end
 		end 
 		else begin
-		    count <= count + 1;//up count if count isnt CT
+		    if(Dclose == 1 && count >=3)//if count >3 and Doorclose button pressed
+		       count <= 5;
+		    else
+		       count <= count + 1;//up count if count isnt CT
 		end
 	   end
 	end
@@ -342,7 +377,10 @@ always @(posedge clk)begin
 		      doorstate <= CLOSED;//door should close
 		end
 		else
-		   count <= count + 1;//increases count if count isnt 5
+		    if(Dclose == 1 && count >=3)//if count >3 and Doorclose button pressed
+		       count <= 5;
+		    else
+		       count <= count + 1;//increases count if count isnt 5
 	   end
 	   else begin
 		if(nextstate == UP)begin 
@@ -424,7 +462,10 @@ always @(posedge clk)begin
 		    end
 		 end
 		 else
-		    count <= count + 1;//increases count if count isnt 5
+		    if(Dclose == 1 && count >=3)//if count >3 and Doorclose button pressed
+		       count <= 5;
+		    else
+		       count <= count + 1;//increases count if count isnt 5
 	      end
 	   end
 
@@ -461,10 +502,14 @@ always @(posedge clk)begin
 		    end
 		 end
 		 else
-		    count = count + 1;//increases count if count isnt 5
+		    if(Dclose == 1 && count >=3)//if count >3 and Doorclose button pressed
+		       count <= 5;
+		    else
+		       count = count + 1;//increases count if count isnt 5
 	      end
 	   end
 	end
+     end
 	
     3: //Control state between Floor 2 and Floor 3
 	if(elevatorstate == UP)begin//if elevator is moving up
@@ -550,6 +595,15 @@ always @(posedge clk)begin
 
 
     4:
+     if(Emergency == 1)begin
+	doorstate <= OPEN;//should keep door open
+	nextstate <= 0;
+	count <= 0;
+	nextfloor <= 0;
+	elevatorstate <= IDLE;//and not allow elevator to move
+     end
+
+     else begin
 	if(elevatorstate == IDLE && nextstate == IDLE)begin//elevator idle and nothing queued
 	   if(doorstate == CLOSED)begin //door close
 		if(F3down == 1)begin //if F2 up button pressed
@@ -644,7 +698,10 @@ always @(posedge clk)begin
 	 	   end
 		end 
 		else begin
-		    count <= count + 1;//up count if count isnt CT
+		    if(Dclose == 1 && count >=3)//if count >3 and Doorclose button pressed
+		       count <= 5;
+		    else
+		       count <= count + 1;//up count if count isnt CT
 		end
 	   end
 	end
@@ -658,7 +715,10 @@ always @(posedge clk)begin
 		      doorstate <= CLOSED;//door should close
 		end
 		else
-		   count <= count + 1;//increases count if count isnt 5
+		    if(Dclose == 1 && count >=3)//if count >3 and Doorclose button pressed
+		       count <= 5;
+		    else
+		       count <= count + 1;//increases count if count isnt 5
 	   end
 	   else begin
 		if(nextstate == DOWN)begin 
@@ -740,7 +800,10 @@ always @(posedge clk)begin
 		    end
 		 end
 		 else
-		    count <= count + 1;//increases count if count isnt 5
+		    if(Dclose == 1 && count >=3)//if count >3 and Doorclose button pressed
+		       count <= 5;
+		    else
+		       count <= count + 1;//increases count if count isnt 5
 	      end
 	   end
 
@@ -777,10 +840,14 @@ always @(posedge clk)begin
 		    end
 		 end
 		 else
-		    count = count + 1;//increases count if count isnt 5
+		    if(Dclose == 1 && count >=3)//if count >3 and Doorclose button pressed
+		       count <= 5;
+		    else
+		       count = count + 1;//increases count if count isnt 5
 	      end
 	   end
 	end
+     end
 	
     5://check for signals when elevator is betweeen F1 and F2
 	if(elevatorstate == DOWN)begin//if elevator is moving up
@@ -832,81 +899,89 @@ always @(posedge clk)begin
 	      floor <= 6;//go up to floor 4
 	end
 
-    6: 
+    6:
+     if(Emergency == 1)begin
+	doorstate <= OPEN;//should keep door open
+	nextstate <= 0;
+	count <= 0;
+	nextfloor <= 0;
+	elevatorstate <= IDLE;//and not allow elevator to move
+     end
+     else begin
 	if(elevatorstate == IDLE && nextstate == IDLE)begin//elevator idle and nothing queued
 	   if(doorstate == CLOSED)begin //door close
-		if(F1up == 1)begin //if F1 up button pressed
+		if(F4down == 1)begin //if F1 up button pressed
 	  	   doorstate <= OPEN; //door open
-	  	   nextstate <= UP;//elevator will queue a move up
+	  	   nextstate <= DOWN;//elevator will queue a move up
 		   count <= 0; //count should be reset if new up request
-		   nextfloor <= 0;//F1up was requested but no floor button yet
+		   nextfloor <= 3;//F1up was requested but no floor button yet
 	  	end
-	  	else if(F2up == 1)begin
-		   nextstate <= UP;
+	  	else if(F3down == 1)begin
+		   nextstate <= DOWN;
 		   count <= 0;
-		   nextfloor <= 1; //elevator was requested at floor 2
-		   floor <= 1;
-		   elevatorstate <= UP;
+		   nextfloor <= 2; //elevator was requested at floor 3
+		   floor <= 5;
+		   elevatorstate <= DOWN;
 	  	end
-		else if(F2down == 1)begin
-		   nextstate <= DOWN;//elevator will move down once F2 is reached
+		else if(F3up == 1)begin
+		   nextstate <= UP;//elevator will move up once F2 is reached
 		   count <= 0;
-		   nextfloor <= 1;
-		   floor <= 1;
-		   elevatorstate <= UP;
+		   nextfloor <= 2;
+		   floor <= 5;
+		   elevatorstate <= DOWN;
 		end
 	  	else begin
-		   if (F3up == 1)begin
+		   if (F2down == 1)begin
+		       nextstate <= DOWN;
+		       count <= 0;
+		       nextfloor <= 1;
+		       floor <= 5;
+		       elevatorstate <= DOWN;
+		   end
+		   else if (F2up == 1)begin
 		       nextstate <= UP;
 		       count <= 0;
-		       nextfloor <= 2;
-		       floor <= 1;
-		       elevatorstate <= UP;
+		       nextfloor <= 1;
+		       floor <= 5;
+		       elevatorstate <= DOWN;
 		   end
-		   else if (F3down == 1)begin
-		       nextstate <= DOWN;
+		   else if (F1up == 1)begin
+		       nextstate <= UP;
 		       count <= 0;
-		       nextfloor <= 2;
-		       floor <= 1;
-		       elevatorstate <= UP;
-		   end
-		   else if (F4down == 1)begin
-		       nextstate <= DOWN;
-		       count <= 0;
-		       nextfloor <= 3;
-		       floor <= 1;
-		       elevatorstate <= UP;
+		       nextfloor <= 0;
+		       floor <= 5;
+		       elevatorstate <= DOWN;
 		   end
 		   else begin//if someone is inside but elevator is idle
 		       if (Dopen == 1) begin //door open button pressed
 		           doorstate <= OPEN;//door will open
 		           count <= 0;
 		       end
-		       else if (F1 == 1) begin//current floor's request button pressed
+		       else if (F4 == 1) begin//current floor's request button pressed
 		           doorstate <= OPEN;//door will open
 		           count <= 0;
 		       end
 		       else begin
-		           if (F2 == 1) begin//request floor 2 from inside elevator
+		           if (F3 == 1) begin//request floor 2 from inside elevator
 			       nextstate <= IDLE;//elevator has to go up
 			       count <= 0;
-			       nextfloor <= 1;//will go to floor 2
-			       floor <= 1;
-			       elevatorstate <= UP;
+			       nextfloor <= 2;//will go to floor 2
+			       floor <= 5;
+			       elevatorstate <= DOWN;
 			   end
-		           else if (F3 == 1) begin
+		           else if (F2 == 1) begin
 			       nextstate <= IDLE;
 			       count <= 0;
-			       nextfloor <= 2;
-			       floor <= 1;
-			       elevatorstate <= UP;
+			       nextfloor <= 1;
+			       floor <= 5;
+			       elevatorstate <= DOWN;
 			   end
-		           else if (F4 == 1) begin
+		           else if (F1 == 1) begin
 			       nextstate <= IDLE;
 			       count <= 0;
-			       nextfloor <= 3;
-			       floor <= 1;
-			       elevatorstate <= UP;
+			       nextfloor <= 0;
+			       floor <= 5;
+			       elevatorstate <= DOWN;
 			   end
 			   else begin
 			       doorstate <= CLOSED;
@@ -927,7 +1002,10 @@ always @(posedge clk)begin
 	 	   end
 		end 
 		else begin
-		    count <= count + 1;//up count if count isnt CT
+		    if(Dclose == 1 && count >=3)//if count >3 and Doorclose button pressed
+		       count <= 5;
+		    else
+		       count <= count + 1;//up count if count isnt CT
 		end
 	   end
 	end
@@ -941,50 +1019,54 @@ always @(posedge clk)begin
 		      doorstate <= CLOSED;//door should close
 		end
 		else
-		   count <= count + 1;
+		    if(Dclose == 1 && count >=3)//if count >3 and Doorclose button pressed
+		       count <= 5;
+		    else
+		       count <= count + 1;
 	   end
 	   else begin
-		if(F1 == 1)begin
+		if(F4 == 1)begin
 		   doorstate <= OPEN;
 		   count <= 2;
 		end
 		else if(Dopen == 1)begin
 		   doorstate <= OPEN;
-		   count <= 2;
+		   count <= 2;//count is reduced because this would be second instance of button being pressed
 		end
-		else if(F1up == 1) begin
+		else if(F4down == 1) begin
 		   doorstate <= OPEN;
 		   count <= 2;
 		end
-		else if(F2 == 1)begin
-		   nextfloor <= 1;
-		   floor <= 1;
-		   elevatorstate <= UP;
-		end
 		else if(F3 == 1)begin
 		   nextfloor <= 2;
-		   floor <= 1;
-		   elevatorstate <= UP;
+		   floor <= 5;
+		   elevatorstate <= DOWN;
 		end
-		else if(F4 == 1)begin
-		   nextfloor <= 3;
-		   floor <= 1;
-		   elevatorstate <= UP;
+		else if(F2 == 1)begin
+		   nextfloor <= 1;
+		   floor <= 5;
+		   elevatorstate <= DOWN;
+		end
+		else if(F1 == 1)begin
+		   nextfloor <= 0;
+		   floor <= 5;
+		   elevatorstate <= DOWN;
 		end
 		else 
-		   nextstate <= 0;
+		   nextstate <= 0;//if door opens and no inputs are detected, go back to idle
 	   end
 	end
 
 	else begin//if elevator has just arrived
-	   if(elevatorstate == DOWN)begin
-	   	nextfloor <= 0;
+	   if(elevatorstate == UP)begin
+	   	nextfloor <= 3;
 		elevatorstate <= IDLE;
 		nextstate <= IDLE;
 		count <= 0;
 		doorstate <= OPEN;
 	   end
 	end
+     end
 
 	default 
 	begin 
@@ -1000,4 +1082,6 @@ always @(posedge clk)begin
  end
 end
 
+assign state = elevatorstate;
+ 
 endmodule 

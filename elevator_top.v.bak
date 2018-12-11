@@ -1,6 +1,6 @@
 module toplevel
 (
-input clk, reset, Dsensor, Emergency,
+input clk, reset, Dsensor, Emergency
 Dopen, Dclose,
 F1, F2, F3, F4,
 F1up, F2down, F2up,
