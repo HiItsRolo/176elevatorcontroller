@@ -552,77 +552,77 @@ always @(posedge clk)begin
     4:
 	if(elevatorstate == IDLE && nextstate == IDLE)begin//elevator idle and nothing queued
 	   if(doorstate == CLOSED)begin //door close
-		if(F2up == 1)begin //if F2 up button pressed
+		if(F3down == 1)begin //if F2 up button pressed
 	  	   doorstate <= OPEN; //door open
-	  	   nextstate <= UP;//elevator will queue a move up
+	  	   nextstate <= DOWN;//elevator will queue a move up
 		   count <= 0; //count should be reset if new up request
-		   nextfloor <= 1;//F2up was requested but no floor button yet
+		   nextfloor <= 2;//F2up was requested but no floor button yet
 	  	end
-	  	else if(F2down == 1)begin
+	  	else if(F3up == 1)begin
 		   doorstate <= OPEN;
-		   nextstate <= DOWN;
-		   count <= 0;
-		   nextfloor <= 1;
-	  	end
-		else if(F3up == 1)begin
-		   nextstate <= UP;//elevator will move up once F3 is reached
+		   nextstate <= UP;
 		   count <= 0;
 		   nextfloor <= 2;
+	  	end
+		else if(F2down == 1)begin
+		   nextstate <= DOWN;//elevator will move up once F3 is reached
+		   count <= 0;
+		   nextfloor <= 1;
 		   floor <= 3;
-		   elevatorstate <= UP;
+		   elevatorstate <= DOWN;
 		end
 	  	else begin
-		   if (F3down == 1)begin
-		       nextstate <= DOWN;
-		       count <= 0;
-		       nextfloor <= 2;
-		       floor <= 3;
-		       elevatorstate <= UP;
-		   end
-		   else if (F1up == 1)begin
+		   if (F2up == 1)begin
 		       nextstate <= UP;
 		       count <= 0;
-		       nextfloor <= 0;
-		       floor <= 1;
+		       nextfloor <= 1;
+		       floor <= 3;
 		       elevatorstate <= DOWN;
 		   end
 		   else if (F4down == 1)begin
 		       nextstate <= DOWN;
 		       count <= 0;
 		       nextfloor <= 3;
-		       floor <= 3;
+		       floor <= 5;
 		       elevatorstate <= UP;
+		   end
+		   else if (F1up == 1)begin
+		       nextstate <= UP;
+		       count <= 0;
+		       nextfloor <= 0;
+		       floor <= 3;
+		       elevatorstate <= DOWN;
 		   end
 		   else begin//if someone is inside but elevator is idle
 		       if (Dopen == 1) begin//if door open button pressed
 		           doorstate <= OPEN;
 		           count <= 0;
 		       end
-		       else if (F2 == 1) begin //if button for F2 is pressed while on fourth floor
+		       else if (F3 == 1) begin //if button for F2 is pressed while on fourth floor
 		           doorstate <= OPEN;//door should open
 		           count <= 0;
 		       end
 		       else begin
-		           if (F3 == 1) begin //F3 requested from inside
-			       nextstate <= UP;//up queued
+		           if (F2 == 1) begin //F3 requested from inside
+			       nextstate <= DOWN;//up queued
 			       count <= 0;
-			       nextfloor <= 2;//next floor will be floor 3
+			       nextfloor <= 1;//next floor will be floor 3
 			       floor <= 3;
-			       elevatorstate <= UP;
-			   end
-		           else if (F1 == 1) begin
-			       nextstate <= DOWN;
-			       count <= 0;
-			       nextfloor <= 0;//next floor will be floor 1
-			       floor <= 1;
 			       elevatorstate <= DOWN;
 			   end
 		           else if (F4 == 1) begin
 			       nextstate <= UP;
 			       count <= 0;
-			       nextfloor <= 3;//next floor will be floor 3
-			       floor <= 3;
+			       nextfloor <= 3;//next floor will be floor 1
+			       floor <= 5;
 			       elevatorstate <= UP;
+			   end
+		           else if (F1 == 1) begin
+			       nextstate <= DOWN;
+			       count <= 0;
+			       nextfloor <= 0;//next floor will be floor 3
+			       floor <= 3;
+			       elevatorstate <= DOWN;
 			   end
 			   else begin
 			       doorstate <= CLOSED;
@@ -661,24 +661,24 @@ always @(posedge clk)begin
 		   count <= count + 1;//increases count if count isnt 5
 	   end
 	   else begin
-		if(nextstate == UP)begin 
-		   if(F2 == 1 || Dopen == 1)begin
+		if(nextstate == DOWN)begin 
+		   if(F3 == 1 || Dopen == 1)begin
 		      doorstate <= OPEN;
 		      count <= 2;
 		   end
-		   else if(F2up == 1)begin
+		   else if(F3down == 1)begin
 		      doorstate <= OPEN;
 		      count <= 2;	
 		   end
-		   else if(F3 == 1)begin
-		      nextfloor <= 2;
+		   else if(F2 == 1)begin
+		      nextfloor <= 1;
 		      floor <= 3;
-		      elevatorstate <= UP;
+		      elevatorstate <= DOWN;
 		   end
-		   else if(F4 == 1)begin
-		      nextfloor <= 3;
+		   else if(F1 == 1)begin
+		      nextfloor <= 0;
 		      floor <= 3;
-		      elevatorstate <= UP;
+		      elevatorstate <= DOWN;
 		   end
 		   else begin
 		      nextstate <= IDLE;
@@ -686,18 +686,18 @@ always @(posedge clk)begin
 
 		end
 		else begin
-		   if(F2 == 1 || Dopen == 1)begin
+		   if(F3 == 1 || Dopen == 1)begin
 		      doorstate <= OPEN;
 		      count <= 2;
 		   end
-		   else if(F2down == 1)begin
+		   else if(F3up == 1)begin
 		      doorstate <= OPEN;
 		      count <= 2;	
 		   end
-		   else if(F1 == 1)begin
-		      nextfloor <= 0;
-		      floor <= 1;
-		      elevatorstate <= DOWN;
+		   else if(F4 == 1)begin
+		      nextfloor <= 3;
+		      floor <= 5;
+		      elevatorstate <= UP;
 		   end
 		   else begin
 		      nextstate <= IDLE;
@@ -709,14 +709,14 @@ always @(posedge clk)begin
 	else begin//elevatorstate != 0
 	   if(elevatorstate == UP)begin//if elevator was going up
 	      if(doorstate == CLOSED)begin//if door closed
-		 if(nextfloor == 1)begin
+		 if(nextfloor == 2)begin
 		    doorstate <= OPEN;
 		    count <= 0;
 		 end
-		 else if(nextfloor == 2 || nextfloor == 3)//if floor 3 or 4 requested
-		    floor <= 3;
+		 else if(nextfloor == 3)//if floor 4 requested
+		    floor <= 5;
 		 else
-		    floor <= 1;
+		    floor <= 3;
 	      end
 	      else begin//if door open
 		 if(count >= CT)begin//count to 5
@@ -724,12 +724,12 @@ always @(posedge clk)begin
 		       doorstate <= OPEN;//door should stay open if sensor is 1
 		    else begin
 		       if(nextstate == UP)begin
-			  floor <= 3;
+			  floor <= 5;
 			  elevatorstate <= UP;
 		     	  doorstate <= CLOSED;//door should close
 		       end
 		       else if(nextstate == DOWN)begin
-			  floor <= 1;
+			  floor <= 3;
 			  elevatorstate <= DOWN;
 			  doorstate <= CLOSED;
 		       end
@@ -746,14 +746,14 @@ always @(posedge clk)begin
 
 	   else begin//elevator going down
 	      if(doorstate == CLOSED)begin//if door closed
-		 if(nextfloor == 1)begin
+		 if(nextfloor == 2)begin
 		    doorstate <= OPEN;
 		    count <= 0;
 		 end
-		 else if(nextfloor == 0)//if floor 0 was requested
-		    floor <= 1;//go down
+		 else if(nextfloor == 0 || nextfloor == 1)//if floor 0 was requested
+		    floor <= 3;//go down
 		 else
-		    floor <= 3;//next floor is 2 or 3, go up
+		    floor <= 5;//next floor is 2 or 3, go up
 	      end
 	      else begin//if door open
 		 if(count >= CT)begin//count to 5
@@ -761,12 +761,12 @@ always @(posedge clk)begin
 		       doorstate <= OPEN;//door should stay open if sensor is 1
 		    else begin
 		       if(nextstate == DOWN)begin
-			  floor <= 1;
+			  floor <= 3;
 			  elevatorstate <= DOWN;
 		     	  doorstate <= CLOSED;//door should close
 		       end
 		       else if(nextstate == UP)begin
-			  floor <= 3;
+			  floor <= 5;
 			  elevatorstate <= UP;
 			  doorstate <= CLOSED;
 		       end
@@ -782,114 +782,207 @@ always @(posedge clk)begin
 	   end
 	end
 	
+    5://check for signals when elevator is betweeen F1 and F2
+	if(elevatorstate == DOWN)begin//if elevator is moving up
+	   if(nextfloor == 2)begin//if F3 is desired floor
+	      if(F1 == 1 || F2 == 1)begin
+		 nextstate <= DOWN;//queue a move down once at floor 4
+		 floor <= 4;//go too floor 4
+	      end
+	      else if(F1up == 1 || F2down == 1)begin
+		 nextstate <= DOWN;
+		 floor <= 4;
+	      end
+	      else if (F2up == 1)begin
+		 nextstate <= DOWN;
+		 floor <= 4;
+	      end
+	      else if (F3down == 1)begin
+	         nextstate <= IDLE;
+		 floor <= 4;
+	      end
+	      else if (F3up == 1 || F3 == 1) begin
+		 nextstate <= IDLE;
+		 floor <= 4;
+	      end
+	      else if (F4down || F4 == 1)begin
+		 nextstate <= UP;
+		 floor <= 4;
+	      end
+	      else begin
+		 nextstate <= IDLE;
+		 floor <= 4;
+	      end
+	   end
+	   else if(nextfloor == 0 || nextfloor == 1)begin
+	      if(F3 == 1 || F3up == 1)begin
+		 nextfloor <= 2;
+		 nextstate <= DOWN;
+		 floor <= 4;
+	      end
+	      else
+		 floor <= 4;
+		 nextstate <= DOWN;
+	   end
+	   else
+		 floor <= 4;
+	end
+	else begin//if elevator is going UP
+	      nextstate <= DOWN;//queue a move down
+	      floor <= 6;//go up to floor 4
+	end
 
-    6:  if(elevatorstate == 0 && nextstate == 0)begin//elevator idle and nothing queued
-	   if(doorstate == 0)begin //door close
-		if(F4down == 1)begin //if F4 down button pressed
-	  	   doorstate <= 1; //door open
-	  	   nextstate <= 2;//elevator will queue a move down
-		   count <= 0; //count should be reset if new down request
-		   nextfloor <= 3;//F4down was requested but no floor button yet
+    6: 
+	if(elevatorstate == IDLE && nextstate == IDLE)begin//elevator idle and nothing queued
+	   if(doorstate == CLOSED)begin //door close
+		if(F4down == 1)begin //if F1 up button pressed
+	  	   doorstate <= OPEN; //door open
+	  	   nextstate <= DOWN;//elevator will queue a move up
+		   count <= 0; //count should be reset if new up request
+		   nextfloor <= 3;//F1up was requested but no floor button yet
 	  	end
 	  	else if(F3down == 1)begin
-		   nextstate <= 2;
+		   nextstate <= DOWN;
 		   count <= 0;
 		   nextfloor <= 2; //elevator was requested at floor 3
+		   floor <= 5;
+		   elevatorstate <= DOWN;
 	  	end
 		else if(F3up == 1)begin
-		   nextstate <= 1;//elevator will move up once F3 is reached
+		   nextstate <= UP;//elevator will move up once F2 is reached
 		   count <= 0;
 		   nextfloor <= 2;
+		   floor <= 5;
+		   elevatorstate <= DOWN;
 		end
 	  	else begin
 		   if (F2down == 1)begin
-		       nextstate <= 2;
+		       nextstate <= DOWN;
 		       count <= 0;
 		       nextfloor <= 1;
+		       floor <= 5;
+		       elevatorstate <= DOWN;
 		   end
 		   else if (F2up == 1)begin
-		       nextstate <= 1;
+		       nextstate <= UP;
 		       count <= 0;
 		       nextfloor <= 1;
+		       floor <= 5;
+		       elevatorstate <= DOWN;
 		   end
 		   else if (F1up == 1)begin
-		       nextstate <= 1;
+		       nextstate <= UP;
 		       count <= 0;
 		       nextfloor <= 0;
+		       floor <= 5;
+		       elevatorstate <= DOWN;
 		   end
 		   else begin//if someone is inside but elevator is idle
-		       if (Dopen == 1) begin//if door open button pressed
-		           doorstate <= 1;
+		       if (Dopen == 1) begin //door open button pressed
+		           doorstate <= OPEN;//door will open
 		           count <= 0;
 		       end
-		       else if (F4 == 1) begin //if button for F4 is pressed while on fourth floor
-		           doorstate <= 1;//door should open
+		       else if (F4 == 1) begin//current floor's request button pressed
+		           doorstate <= OPEN;//door will open
 		           count <= 0;
 		       end
 		       else begin
-		           if (F3 == 1) begin //F3 requested from inside
-			       nextstate <= 2;//down queued
+		           if (F3 == 1) begin//request floor 2 from inside elevator
+			       nextstate <= IDLE;//elevator has to go up
 			       count <= 0;
-			       nextfloor <= 2;//next floor will be floor 3
+			       nextfloor <= 2;//will go to floor 2
+			       floor <= 5;
+			       elevatorstate <= DOWN;
 			   end
 		           else if (F2 == 1) begin
-			       nextstate <= 2;
+			       nextstate <= IDLE;
 			       count <= 0;
-			       nextfloor <= 1;//next floor will be floor 2
+			       nextfloor <= 1;
+			       floor <= 5;
+			       elevatorstate <= DOWN;
 			   end
 		           else if (F1 == 1) begin
-			       nextstate <= 2;
+			       nextstate <= IDLE;
 			       count <= 0;
-			       nextfloor <= 0;//next floor will be floor 1
+			       nextfloor <= 0;
+			       floor <= 5;
+			       elevatorstate <= DOWN;
 			   end
 			   else begin
-			       doorstate <= 0;
-			       nextstate <= 0;
+			       doorstate <= CLOSED;
+			       nextstate <= IDLE;
 			       nextfloor <= floor;
 			   end
 		       end
 		  end
 	        end
 	   end
-
 	   else begin //if door open
 		if(count >= CT)begin
 		   if(Dsensor == 1)begin//if someone is in doorway
-		      doorstate <= 1;//door stays open
+		      doorstate <= OPEN;//door stays open
 		   end
 		   else begin
-		      doorstate <= 0;//door close
+		      doorstate <= CLOSED;//door close
 	 	   end
 		end 
 		else begin
-		    count = count + 1;//up count if count isnt CT
+		    count <= count + 1;//up count if count isnt CT
 		end
 	   end
 	end
 
-	else if (elevatorstate == 0 && nextstate != 0)begin //elevator idle and up/down queued
-	   if(doorstate == 1)begin //if door is open
-		if(count >= CT)begin//count to 5
+	else if (elevatorstate == IDLE && nextstate != IDLE)begin //elevatorstate idle and up queue
+	   if(doorstate == OPEN)begin //if door is open
+		if(count >= CT)begin//if count to 5
 		   if(Dsensor == 1)
-		      doorstate <= 1;//door should stay open if sensor is 1
+		      doorstate <= OPEN;//door should stay open if sensor is 1
 		   else
-		      doorstate <= 0;//door should close
+		      doorstate <= CLOSED;//door should close
 		end
 		else
-		   count = count + 1;//increases count if count isnt 5
+		   count <= count + 1;
 	   end
 	   else begin
-		elevatorstate <= 2;//elevator will move down
-		floor <= 2;
+		if(F4 == 1)begin
+		   doorstate <= OPEN;
+		   count <= 2;
+		end
+		else if(Dopen == 1)begin
+		   doorstate <= OPEN;
+		   count <= 2;//count is reduced because this would be second instance of button being pressed
+		end
+		else if(F4down == 1) begin
+		   doorstate <= OPEN;
+		   count <= 2;
+		end
+		else if(F3 == 1)begin
+		   nextfloor <= 2;
+		   floor <= 5;
+		   elevatorstate <= DOWN;
+		end
+		else if(F2 == 1)begin
+		   nextfloor <= 1;
+		   floor <= 5;
+		   elevatorstate <= DOWN;
+		end
+		else if(F1 == 1)begin
+		   nextfloor <= 0;
+		   floor <= 5;
+		   elevatorstate <= DOWN;
+		end
+		else 
+		   nextstate <= 0;//if door opens and no inputs are detected, go back to idle
 	   end
 	end
-	else begin//elevatorstate == 2, elevator is moving down
-	   if(elevatorstate == 1)begin
+
+	else begin//if elevator has just arrived
+	   if(elevatorstate == UP)begin
 	   	nextfloor <= 3;
-		elevatorstate <= 0;
-		nextstate <= 0;
+		elevatorstate <= IDLE;
+		nextstate <= IDLE;
 		count <= 0;
-		doorstate <= 1;
+		doorstate <= OPEN;
 	   end
 	end
 
