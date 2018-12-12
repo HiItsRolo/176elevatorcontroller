@@ -965,7 +965,7 @@ always @(posedge clk)begin
 	      end
 	   end
 	   else if(nextfloor == 0 || nextfloor == 1)begin
-	      if(F3 == 1 || F3up == 1)begin
+	      if(F3 == 1 || F3down == 1)begin
 		 nextfloor <= 2;
 		 nextstate <= DOWN;
 		 floor <= 4;
