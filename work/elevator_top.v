@@ -1,4 +1,4 @@
-module toplevel
+module elevator_top
 (
 input clk, reset, Dsensor, Emergency,
 Dopen, Dclose,

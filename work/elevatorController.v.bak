@@ -1,4 +1,4 @@
-1module elevatorController
+module elevatorController
 (
 input clk, reset, Dsensor, Emergency, //signals
 Dopen, Dclose, //request door open/close

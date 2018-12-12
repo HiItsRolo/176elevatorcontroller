@@ -1,11 +1,4 @@
-C:/Users/Groot/Documents/GitHub/176elevatorcontroller/work/elevatorController.v {1 {vlog -work work -stats=none C:/Users/Groot/Documents/GitHub/176elevatorcontroller/work/elevatorController.v
-Model Technology ModelSim PE Student Edition vlog 10.4a Compiler 2015.03 Apr  7 2015
--- Compiling module elevatorController
-
-Top level modules:
-	elevatorController
-
-} {} {}} C:/Users/Groot/Documents/GitHub/176elevatorcontroller/work/lights.v {1 {vlog -work work -stats=none C:/Users/Groot/Documents/GitHub/176elevatorcontroller/work/lights.v
+C:/Users/Groot/Documents/GitHub/176elevatorcontroller/work/lights.v {1 {vlog -work work -stats=none {C:\Users\Groot\Documents\GitHub\176elevatorcontroller\work\lights.v}
 Model Technology ModelSim PE Student Edition vlog 10.4a Compiler 2015.03 Apr  7 2015
 -- Compiling module lights
 
@@ -21,9 +14,9 @@ Top level modules:
 
 } {} {}} C:/Users/Groot/Documents/GitHub/176elevatorcontroller/work/elevator_top.v {1 {vlog -work work -stats=none C:/Users/Groot/Documents/GitHub/176elevatorcontroller/work/elevator_top.v
 Model Technology ModelSim PE Student Edition vlog 10.4a Compiler 2015.03 Apr  7 2015
--- Compiling module toplevel
+-- Compiling module elevator_top
 
 Top level modules:
-	toplevel
+	elevator_top
 
 } {} {}}

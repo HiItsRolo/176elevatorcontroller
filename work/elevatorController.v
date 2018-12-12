@@ -918,7 +918,7 @@ always @(posedge clk)begin
 		    if(Dclose == 1 && count >=3)//if count >3 and Doorclose button pressed
 		       count <= 5;
 		    else
-		       count = count + 1;//increases count if count isnt 5
+		       count <= count + 1;//increases count if count isnt 5
 	      end
 	   end
 	end

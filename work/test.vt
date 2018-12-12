@@ -8,7 +8,7 @@ F3down, F3up, F4down;
 wire [6:0] floordisp, statedisp;
 wire emergencylight;
 
-toplevel tl1(
+elevator_top tl1(
 clk, reset, Dsensor, Emergency,
 Dopen, Dclose,
 F1, F2, F3, F4,

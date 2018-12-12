@@ -22,7 +22,7 @@ tempstate, tempfloor);
 
 always@(*)begin
    state <= tempstate;
-   //floordisp <= fseg;
+   floordisp <= fseg;
    statedisp <= sseg;
 end
 
